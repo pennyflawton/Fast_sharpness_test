@@ -19,12 +19,17 @@ cpdef int fastmlv(double[:,:]data,int x,int y):
 cpdef double[:,:] fastmlv_image(double[:,:] imagedata):
     cdef int length = imagedata.shape[0]
     cdef int width = imagedata.shape[1]
-
-    cdef double[:,:] mlvmap = np.zeros((length,width))
-
     
-    for idx,x in np.ndenumerate(imagedata):
-            mlvmap[idx]=fastmlv(imagedata,idx[0]-1,idx[1]-1)
+    #print (length,width)
+    cdef double[:,:] mlvmap = np.zeros((length,width))
+    cdef i,j
+    
+    #blocksx = np.arange(1,width,3)
+    #blocksy = np.arange(1,length,3)
+    
+    for i in range(1,length-1):
+        for j in range(1,width-1):
+            mlvmap[i,j]=fastmlv(imagedata,i,j)
             
     mlvmap=mlvmap[1:length-1,1:width-1]
     
